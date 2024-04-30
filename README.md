@@ -12,7 +12,7 @@ This project uses machine learning to classify news articles into one of two cat
 * Clean the dataset: remove entries with any NULL fields, or have an “unknown” type.
 * Split the final dataframe into three different sets: 80% training, 10% validation, 10% testing, and output them to separate files in parquet format.
 
-### Building the AI Model:
+## Building the AI Model:
 * Data preparation: transform text from datasets into features using a method such as TF-IDF: https://spark.apache.org/docs/1.6.0/ml-features.html#feature-extractors
 * Train the model with the training dataset using binomial logistic regression: https://spark.apache.org/docs/latest/ml-classification-regression.html#binomial-logistic-regression
 * After training the model, use k-fold cross validation to validate the model with the validation dataset after training: https://spark.apache.org/docs/latest/ml-tuning.html
