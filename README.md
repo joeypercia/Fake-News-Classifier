@@ -16,8 +16,8 @@ This project uses machine learning to classify news articles into one of two cat
 * Data preparation: transform text from datasets into features using a method such as TF-IDF: https://spark.apache.org/docs/1.6.0/ml-features.html#feature-extractors
 * Train the model with the training dataset using binomial logistic regression: https://spark.apache.org/docs/latest/ml-classification-regression.html#binomial-logistic-regression
 * After training the model, use k-fold cross validation to validate the model with the validation dataset after training: https://spark.apache.org/docs/latest/ml-tuning.html
-* After the model is trained and validated, test it on the testing dataset:
-https://stackoverflow.com/questions/45681387/predict-test-data-using-model-based-on-training-data-set
+* After the model is trained and validated, test it on the testing dataset: https://stackoverflow.com/questions/45681387/predict-test-data-using-model-based-on-training-data-set
+* Use the model to classify new data: https://stackoverflow.com/questions/45986697/using-saved-spark-model-to-evaluate-new-data
 
 
  
