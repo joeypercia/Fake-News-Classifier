@@ -12,7 +12,6 @@ spark = SparkSession.builder \
 
 # Load data
 training_data = spark.read.format("parquet").load("sampled_train_data.parquet")
-# validation_data = spark.read.format("parquet").load("sampled_val_data.parquet")
 # test_data = spark.read.format("parquet").load("sampled_test_data.parquet")
 
 # Tokenization
