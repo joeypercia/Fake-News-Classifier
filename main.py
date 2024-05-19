@@ -23,7 +23,7 @@ vectorizer = CountVectorizer(inputCol="words", outputCol="features")
 # Convert 'type' column to numeric 'label'
 indexer = StringIndexer(inputCol="type", outputCol="label")
 
-# Logistic Regression Model TODO: Implement TrainValidationSplit (task 3)
+# Logistic Regression Model TODO: Implement cross-validation (task 3)
 lr = LogisticRegression(maxIter=10, regParam=0.3, elasticNetParam=0.8)
 
 # Build the pipeline
