@@ -2,6 +2,7 @@ from pyspark.sql import SparkSession, DataFrameWriter
 from pyspark.ml import Pipeline
 from pyspark.ml.feature import Tokenizer, StringIndexer, HashingTF, IDF
 from pyspark.ml.classification import LogisticRegression
+from pyspark.ml.evaluation import BinaryClassificationEvaluator
 import time
 
 start_time = time.time()
@@ -22,7 +23,6 @@ spark = SparkSession.builder \
 
 # Load data
 training_data = spark.read.format("parquet").load("sampled_train_data.parquet")
-# test_data = spark.read.format("parquet").load("sampled_test_data.parquet")
 
 # Tokenization and Feature Transformation
 tokenizer = Tokenizer(inputCol="content", outputCol="words")
@@ -46,8 +46,13 @@ model = pipeline.fit(training_data)
 # Save the model
 model.write().overwrite().save("lr_model")
 
-# TODO: Make predictions on test data and evaluate accuracy (task 4)
-# predictions = model.transform(test_data)
+# Make predictions on test data and evaluate accuracy
+test_data = spark.read.format("parquet").load("sampled_test_data.parquet")
+predictions = model.transform(test_data)
+evaluator = BinaryClassificationEvaluator(rawPredictionCol="rawPrediction", labelCol="label", metricName="areaUnderROC")
+accuracy = evaluator.evaluate(predictions)
+print(f"Test Data Accuracy: {accuracy}")
+=======
 
 # Define JDBC properties
 url = "url"
