@@ -2,6 +2,8 @@ from pyspark.sql import SparkSession
 from pyspark.ml import Pipeline
 from pyspark.ml.feature import Tokenizer, StringIndexer, CountVectorizer
 from pyspark.ml.classification import LogisticRegression
+from pyspark.ml.evaluation import BinaryClassificationEvaluator
+
 
 spark = SparkSession.builder \
     .appName("Fake News Classifier") \
@@ -36,5 +38,10 @@ model = pipeline.fit(training_data)
 model.write().overwrite().save("lr_model")
 
 # TODO: Make predictions on test data and evaluate accuracy (task 4)
+test_data = spark.read.format("parquet").load("sampled_test_data.parquet")
+predictions = model.transform(test_data)
+evaluator = BinaryClassificationEvaluator(rawPredictionCol="rawPrediction", labelCol="label", metricName="areaUnderROC")
+accuracy = evaluator.evaluate(predictions)
+print(f"Test Data Accuracy: {accuracy}")
 
 spark.stop()
