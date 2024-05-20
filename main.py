@@ -6,11 +6,18 @@ import time
 
 start_time = time.time()
 
+# executor instances = number of spark workers
 spark = SparkSession.builder \
-    .appName("Fake News Classifier") \
-    .config("spark.executor.memory", "3g") \
-    .config("spark.driver.memory", "3g") \
-    .config("spark.executor.memoryOverhead", "512m") \
+    .appName("Data Preprocessing") \
+    .config("spark.executor.memory", "4g") \
+    .config("spark.driver.memory", "4g") \
+    .config("spark.executor.memoryOverhead", "512") \
+    .config("spark.memory.fraction", "0.8") \
+    .config("spark.executor.instances", "4") \
+    .config("spark.executor.cores", "4") \
+    .config("spark.default.parallelism", "100") \
+    .config("spark.executor.extraJavaOptions", "-XX:+UseG1GC") \
+    .config("spark.driver.extraJavaOptions", "-XX:+UseG1GC") \
     .getOrCreate()
 
 # Load data
