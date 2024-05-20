@@ -52,7 +52,6 @@ predictions = model.transform(test_data)
 evaluator = BinaryClassificationEvaluator(rawPredictionCol="rawPrediction", labelCol="label", metricName="areaUnderROC")
 accuracy = evaluator.evaluate(predictions)
 print(f"Test Data Accuracy: {accuracy}")
-=======
 
 # Define JDBC properties
 url = "url"
