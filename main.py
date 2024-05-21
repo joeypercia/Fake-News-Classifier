@@ -1,4 +1,4 @@
-from pyspark.sql import SparkSession, DataFrameWriter
+from pyspark.sql import SparkSession
 from pyspark.ml import Pipeline
 from pyspark.ml.feature import Tokenizer, StringIndexer, HashingTF, IDF
 from pyspark.ml.classification import LogisticRegression
@@ -53,16 +53,12 @@ evaluator = BinaryClassificationEvaluator(rawPredictionCol="rawPrediction", labe
 accuracy = evaluator.evaluate(predictions)
 print(f"Test Data Accuracy: {accuracy}")
 
-# Define JDBC properties
-url = "url"
-properties = {
-    "user": "cs179g",
-    "password": "password",
-    "driver": "com.mysql.jdbc.Driver"
-}
-
-# Write DataFrame to MySQL
-# predictions.write.jdbc(url=url, table="test_predictions", mode="append", properties=properties)
+# Write DataFrame to Cassandra
+predictions.write\
+    .format("org.apache.spark.sql.cassandra")\
+    .mode('append')\
+    .options(table="predictions", keyspace="pred")\
+    .save()
 
 end_time = time.time()
 elapsed_time = end_time - start_time
