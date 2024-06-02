@@ -104,6 +104,8 @@ end_time = time.time()
 elapsed_time = end_time - start_time
 print(f"Data preparation execution time: {elapsed_time:.2f} seconds")
 
+train_df.sample(fraction=0.05, seed=5)
+
 print_type_counts(train_df, "Training Dataset")
 print_type_counts(val_df, "Validation Dataset")
 print_type_counts(test_df, "Test Dataset")

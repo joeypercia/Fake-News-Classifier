@@ -3,6 +3,7 @@ from pyspark.ml import Pipeline
 from pyspark.ml.feature import Tokenizer, StringIndexer, HashingTF, IDF
 from pyspark.ml.classification import LogisticRegression
 from pyspark.ml.evaluation import BinaryClassificationEvaluator
+from pyspark.ml.tuning import CrossValidator, ParamGridBuilder
 import time
 
 start_time = time.time()
@@ -39,12 +40,26 @@ lr = LogisticRegression(maxIter=10, regParam=0.3, elasticNetParam=0.8)
 pipeline = Pipeline(stages=[tokenizer, hashingTF, idf, indexer, lr])
 
 # TODO: Implement cross-validation (task 3)
+paramGrid = ParamGridBuilder() \
+    .addGrid(hashingTF.numFeatures, [10, 100, 1000]) \
+    .addGrid(lr.regParam, [0.1, 0.01]) \
+    .build()
+
+crossval = CrossValidator(estimator=pipeline,
+                          estimatorParamMaps=paramGrid,
+                          evaluator=BinaryClassificationEvaluator(),
+                          numFolds=3)
+
+cvModel = crossval.fit(training_data)
+cvModel.write().overwrite.save("cv_model")
 
 # Fit the model
-model = pipeline.fit(training_data)
+# model = pipeline.fit(training_data)
+model = crossval.fit(training_data)
 
 # Save the model
-model.write().overwrite().save("lr_model")
+# model.write().overwrite().save("lr_model")
+model.write().overwrite().save("cv_model")
 
 # Make predictions on test data and evaluate accuracy
 test_data = spark.read.format("parquet").load("sampled_test_data.parquet")
