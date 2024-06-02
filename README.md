@@ -17,3 +17,15 @@ This project uses machine learning to classify news articles into one of two cat
 * Use cross-validation to train and validate the model: https://spark.apache.org/docs/latest/ml-tuning.html
 * After the model is trained and validated, test it on the testing dataset: https://stackoverflow.com/questions/45681387/predict-test-data-using-model-based-on-training-data-set
 * Use the model to classify new data: https://stackoverflow.com/questions/45986697/using-saved-spark-model-to-evaluate-new-data
+
+## Running the Web App:
+* Start express server:
+```
+cd react-app
+node server.js
+```
+* Run react app:
+```
+cd client
+npm start
+```
