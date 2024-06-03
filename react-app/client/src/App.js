@@ -55,7 +55,7 @@ const App = () => {
             <tr key={index}>
               <td>{row.title}</td>
               <td>{row.type}</td>
-              <td>{shortenText(row.content, 200)}</td> 
+              <td>{shortenText(row.content, 200)}</td>
             </tr>
           ))}
         </tbody>
