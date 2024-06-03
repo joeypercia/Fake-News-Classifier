@@ -25,8 +25,7 @@ const App = () => {
   const filteredData = data.filter((row) =>
     row.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     row.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    row.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    row.words.join(', ').toLowerCase().includes(searchTerm.toLowerCase())
+    row.content.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -45,7 +44,6 @@ const App = () => {
             <th>Title</th>
             <th>Type</th>
             <th>Content</th>
-            <th>Words</th>
           </tr>
         </thead>
         <tbody>
@@ -54,7 +52,6 @@ const App = () => {
               <td>{row.title}</td>
               <td>{row.type}</td>
               <td>{row.content}</td>
-              <td>{row.words.join(', ')}</td>
             </tr>
           ))}
         </tbody>
