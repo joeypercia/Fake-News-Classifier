@@ -20,6 +20,24 @@ h1 {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.search-scope {
+  margin-bottom: 20px;
+}
+
+.search-scope label {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+.filter-options {
+  margin-bottom: 20px;
+}
+
+.filter-options label {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
 .prediction-table {
   width: 100%;
   border-collapse: collapse;
@@ -38,6 +56,11 @@ h1 {
   position: sticky;
   top: 0;
   z-index: 1;
+  cursor: pointer;
+}
+
+.prediction-table th:hover {
+  background-color: #e0e0e0;
 }
 
 .prediction-table tr:nth-child(even) {
