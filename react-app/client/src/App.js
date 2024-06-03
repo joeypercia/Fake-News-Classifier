@@ -47,18 +47,18 @@ const App = () => {
         <thead>
         <tr>
           <th>Title</th>
+          <th>Predicted Type</th>
           <th>Actual Type</th>
           <th>Content</th>
-          <th>Predicted Type</th>
         </tr>
         </thead>
         <tbody>
           {filteredData.map((row, index) => (
               <tr key={index}>
                 <td>{row.title}</td>
+                <td>{row.prediction === 0 ? 'reliable' : 'fake'}</td>
                 <td>{row.type}</td>
                 <td>{shortenText(row.content, 200)}</td>
-                <td>{row.prediction === 0 ? 'reliable' : 'fake'}</td>
               </tr>
           ))}
         </tbody>
