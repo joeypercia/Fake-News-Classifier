@@ -13,7 +13,7 @@ const client = new cassandra.Client({
 
 app.get('/predictions', async (req, res) => {
   try {
-    const query = 'SELECT * FROM predictions LIMIT 20';
+    const query = 'SELECT * FROM predictions';
     const result = await client.execute(query);
     res.json(result.rows);
   } catch (err) {
