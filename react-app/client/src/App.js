@@ -64,9 +64,10 @@ const App = () => {
       `${row.title} ${row.type} ${row.content} ${row.prediction}` :
       row.title;
     const matchesSearchTerm = searchTarget.toLowerCase().includes(searchTerm.toLowerCase());
+    const predictionString = row.prediction === 0 ? 'reliable' : 'fake';
     const matchesFilter = filterType === 'all' ||
-      (filterType === 'correct' && row.prediction === row.type) ||
-      (filterType === 'incorrect' && row.prediction !== row.type);
+        (filterType === 'correct' && predictionString === row.type) ||
+        (filterType === 'incorrect' && predictionString !== row.type);
     return matchesSearchTerm && matchesFilter;
   });
 
