@@ -29,7 +29,8 @@ const App = () => {
   const filteredData = data.filter((row) =>
     row.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     row.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    row.content.toLowerCase().includes(searchTerm.toLowerCase())
+    row.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    row.prediction.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -44,19 +45,21 @@ const App = () => {
       />
       <table className="prediction-table">
         <thead>
-          <tr>
-            <th>Title</th>
-            <th>Type</th>
-            <th>Content</th>
-          </tr>
+        <tr>
+          <th>Title</th>
+          <th>Actual Type</th>
+          <th>Content</th>
+          <th>Predicted Type</th>
+        </tr>
         </thead>
         <tbody>
           {filteredData.map((row, index) => (
-            <tr key={index}>
-              <td>{row.title}</td>
-              <td>{row.type}</td>
-              <td>{shortenText(row.content, 200)}</td>
-            </tr>
+              <tr key={index}>
+                <td>{row.title}</td>
+                <td>{row.type}</td>
+                <td>{shortenText(row.content, 200)}</td>
+                <td>{row.prediction === 0 ? 'reliable' : 'fake'}</td>
+              </tr>
           ))}
         </tbody>
       </table>
