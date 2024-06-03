@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './App.css';
 
 const App = () => {
   const [data, setData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,10 +18,29 @@ const App = () => {
     fetchData();
   }, []);
 
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredData = data.filter((row) => 
+    row.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    row.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    row.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    row.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    row.words.join(', ').toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div>
+    <div className="App">
       <h1>Predictions</h1>
-      <table border="1">
+      <input 
+        type="text" 
+        placeholder="Enter phrase to sort the table..." 
+        value={searchTerm} 
+        onChange={handleSearch} 
+        className="search-bar"
+      />
+      <table className="prediction-table">
         <thead>
           <tr>
             <th>Title</th>
@@ -30,7 +51,7 @@ const App = () => {
           </tr>
         </thead>
         <tbody>
-          {data.map((row, index) => (
+          {filteredData.map((row, index) => (
             <tr key={index}>
               <td>{row.title}</td>
               <td>{row.type}</td>
