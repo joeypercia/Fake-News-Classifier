@@ -8,6 +8,10 @@ const App = () => {
   const [filterType, setFilterType] = useState('all');
   const [sortConfig, setSortConfig] = useState({ key: '', direction: '' });
   const [searchScope, setSearchScope] = useState('all');
+  const [visible, setVisible] = useState(20);
+  const showMoreItems = () => {
+    setVisible(prevValue => prevValue + 20)
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,11 +60,11 @@ const App = () => {
   };
 
   const filteredData = sortedData.filter((row) => {
-    const searchTarget = searchScope === 'all' ? 
-      `${row.title} ${row.type} ${row.content} ${row.prediction}` : 
+    const searchTarget = searchScope === 'all' ?
+      `${row.title} ${row.type} ${row.content} ${row.prediction}` :
       row.title;
     const matchesSearchTerm = searchTarget.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesFilter = filterType === 'all' || 
+    const matchesFilter = filterType === 'all' ||
       (filterType === 'correct' && row.prediction === row.type) ||
       (filterType === 'incorrect' && row.prediction !== row.type);
     return matchesSearchTerm && matchesFilter;
@@ -69,59 +73,59 @@ const App = () => {
   return (
     <div className="App">
       <h1>Predictions</h1>
-      <input 
-        type="text" 
-        placeholder="Enter phrase to sort the table..." 
-        value={searchTerm} 
-        onChange={handleSearch} 
+      <input
+        type="text"
+        placeholder="Enter phrase to sort the table..."
+        value={searchTerm}
+        onChange={handleSearch}
         className="search-bar"
       />
       <div className="search-scope">
         <label>
-          <input 
-            type="radio" 
-            value="all" 
-            checked={searchScope === 'all'} 
-            onChange={handleSearchScopeChange} 
-          /> 
+          <input
+            type="radio"
+            value="all"
+            checked={searchScope === 'all'}
+            onChange={handleSearchScopeChange}
+          />
           Search All
         </label>
         <label>
-          <input 
-            type="radio" 
-            value="title" 
-            checked={searchScope === 'title'} 
-            onChange={handleSearchScopeChange} 
-          /> 
+          <input
+            type="radio"
+            value="title"
+            checked={searchScope === 'title'}
+            onChange={handleSearchScopeChange}
+          />
           Search Title Only
         </label>
       </div>
       <div className="filter-options">
         <label>
-          <input 
-            type="radio" 
-            value="all" 
-            checked={filterType === 'all'} 
-            onChange={handleFilterChange} 
-          /> 
+          <input
+            type="radio"
+            value="all"
+            checked={filterType === 'all'}
+            onChange={handleFilterChange}
+          />
           All
         </label>
         <label>
-          <input 
-            type="radio" 
-            value="correct" 
-            checked={filterType === 'correct'} 
-            onChange={handleFilterChange} 
-          /> 
+          <input
+            type="radio"
+            value="correct"
+            checked={filterType === 'correct'}
+            onChange={handleFilterChange}
+          />
           Correct
         </label>
         <label>
-          <input 
-            type="radio" 
-            value="incorrect" 
-            checked={filterType === 'incorrect'} 
-            onChange={handleFilterChange} 
-          /> 
+          <input
+            type="radio"
+            value="incorrect"
+            checked={filterType === 'incorrect'}
+            onChange={handleFilterChange}
+          />
           Incorrect
         </label>
       </div>
@@ -135,16 +139,17 @@ const App = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredData.map((row, index) => (
-            <tr key={index}>
-              <td>{row.title}</td>
-              <td>{row.prediction === 0 ? 'reliable' : 'fake'}</td>
-              <td>{row.type}</td>
-              <td>{shortenText(row.content, 200)}</td>
-            </tr>
-          ))}
+            {filteredData.slice(0, visible).map((row, index) => (
+              <tr key={index}>
+                <td>{row.title}</td>
+                <td>{row.prediction === 0 ? 'reliable' : 'fake'}</td>
+                <td>{row.type}</td>
+                <td>{shortenText(row.content, 200)}</td>
+              </tr>
+            ))}
         </tbody>
       </table>
+      <button onClick = {showMoreItems}>{"Load more"}</button>
     </div>
   );
 };

@@ -1,3 +1,13 @@
 
 /react-app/node_modules
 /.idea
+
+lr_model
+sampled_test_data.parquet/
+sampled_train_data.parquet/
+react-app/sampled_test_data.parquet/
+react-app/sampled_train_data.parquet/
+react-app/.DS_Store
+react-app/lr_model/
+react-app/main.py
+.DS_Store
