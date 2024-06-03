@@ -30,7 +30,7 @@ const App = () => {
     row.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
     row.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
     row.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    row.prediction.toLowerCase().includes(searchTerm.toLowerCase())
+    (typeof row.prediction === 'string' && row.prediction.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
