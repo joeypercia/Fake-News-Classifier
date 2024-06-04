@@ -23,9 +23,9 @@ spark = SparkSession.builder \
     .config("spark.driver.memory", "4g") \
     .config("spark.executor.memoryOverhead", "512") \
     .config("spark.memory.fraction", "0.8") \
-    .config("spark.executor.instances", "4") \
-    .config("spark.executor.cores", "4") \
-    .config("spark.default.parallelism", "100") \
+    .config("spark.executor.instances", "2") \
+    .config("spark.executor.cores", "2") \
+    .config("spark.default.parallelism", "4") \
     .config("spark.executor.extraJavaOptions", "-XX:+UseG1GC") \
     .config("spark.driver.extraJavaOptions", "-XX:+UseG1GC") \
     .config("spark.cassandra.connection.host", "localhost") \
