@@ -23,6 +23,11 @@ spark = SparkSession.builder \
     .config("spark.driver.memory", "4g") \
     .config("spark.executor.memoryOverhead", "512") \
     .config("spark.memory.fraction", "0.8") \
+<<<<<<< HEAD
+=======
+    .config("spark.executor.instances", "4") \
+    .config("spark.executor.cores", "4") \
+>>>>>>> 88ba5e3aca3bf5c637d808e95ad8f1a120fdb8f1
     .config("spark.default.parallelism", "100") \
     .config("spark.executor.extraJavaOptions", "-XX:+UseG1GC") \
     .config("spark.driver.extraJavaOptions", "-XX:+UseG1GC") \
