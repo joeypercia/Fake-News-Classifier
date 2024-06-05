@@ -1,97 +1,100 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './App.css';
+import {BrowserRouter, Route, Routes as Switch, Link, Outlet} from 'react-router-dom';
+import Predict from './Predict.js'
+import Home from './Home.js';
 
 const App = () => {
-  const [data, setData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterType, setFilterType] = useState('all');
-  const [sortConfig, setSortConfig] = useState({ key: '', direction: '' });
-  const [searchScope, setSearchScope] = useState('all');
-  const [visible, setVisible] = useState(20);
-  const [expandedRows, setExpandedRows] = useState({});
-  const showMoreItems = () => {
-    setVisible(prevValue => prevValue + 20)
-  };
-  const [selectedData, setSelectedData] = useState({});
-  const [show, setShow] = useState(false);
-  const handleClick = (selectedData) => {
-    setSelectedData(selectedData);
-    setShow(true);
-  };
+  // const [data, setData] = useState([]);
+  // const [searchTerm, setSearchTerm] = useState('');
+  // const [filterType, setFilterType] = useState('all');
+  // const [sortConfig, setSortConfig] = useState({ key: '', direction: '' });
+  // const [searchScope, setSearchScope] = useState('all');
+  // const [visible, setVisible] = useState(20);
+  // const [expandedRows, setExpandedRows] = useState({});
+  // const showMoreItems = () => {
+  //   setVisible(prevValue => prevValue + 20);
+  // };
+  // const [selectedData, setSelectedData] = useState({});
+  // const [show, setShow] = useState(false);
+  // const handleClick = (selectedData) => {
+  //   setSelectedData(selectedData);
+  //   setShow(true);
+  // };
 
-  const hideModal = () => {
-    setShow(false);
-  };
+  // const hideModal = () => {
+  //   setShow(false);
+  // };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/predictions');
-        setData(response.data);
-      } catch (error) {
-        console.error('Error fetching the data', error);
-      }
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:5000/predictions');
+  //       setData(response.data);
+  //     } catch (error) {
+  //       console.error('Error fetching the data', error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
 
-  const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
-  };
+  // const handleSearch = (event) => {
+  //   setSearchTerm(event.target.value);
+  // };
 
-  const handleFilterChange = (event) => {
-    setFilterType(event.target.value);
-  };
+  // const handleFilterChange = (event) => {
+  //   setFilterType(event.target.value);
+  // };
 
-  const handleRowClick = (index) => {
-    setExpandedRows(prevExpandedRows => ({
-      ...prevExpandedRows,
-      [index]: !prevExpandedRows[index]
-    }));
-  };
+  // const handleRowClick = (index) => {
+  //   setExpandedRows(prevExpandedRows => ({
+  //     ...prevExpandedRows,
+  //     [index]: !prevExpandedRows[index]
+  //   }));
+  // };
 
-  const handleSort = (key) => {
-    let direction = 'ascending';
-    if (sortConfig.key === key && sortConfig.direction === 'ascending') {
-      direction = 'descending';
-    }
-    setSortConfig({ key, direction });
-  };
+  // const handleSort = (key) => {
+  //   let direction = 'ascending';
+  //   if (sortConfig.key === key && sortConfig.direction === 'ascending') {
+  //     direction = 'descending';
+  //   }
+  //   setSortConfig({ key, direction });
+  // };
 
-  const handleSearchScopeChange = (event) => {
-    setSearchScope(event.target.value);
-  };
+  // const handleSearchScopeChange = (event) => {
+  //   setSearchScope(event.target.value);
+  // };
 
-  const sortedData = [...data].sort((a, b) => {
-    if (a[sortConfig.key] < b[sortConfig.key]) {
-      return sortConfig.direction === 'ascending' ? -1 : 1;
-    }
-    if (a[sortConfig.key] > b[sortConfig.key]) {
-      return sortConfig.direction === 'ascending' ? 1 : -1;
-    }
-    return 0;
-  });
+  // const sortedData = [...data].sort((a, b) => {
+  //   if (a[sortConfig.key] < b[sortConfig.key]) {
+  //     return sortConfig.direction === 'ascending' ? -1 : 1;
+  //   }
+  //   if (a[sortConfig.key] > b[sortConfig.key]) {
+  //     return sortConfig.direction === 'ascending' ? 1 : -1;
+  //   }
+  //   return 0;
+  // });
 
-  const shortenText = (text, maxLength) => {
-    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-  };
+  // const shortenText = (text, maxLength) => {
+  //   return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+  // };
 
-  const filteredData = sortedData.filter((row) => {
-    const searchTarget = searchScope === 'all' ?
-      `${row.title} ${row.type} ${row.content} ${row.prediction}` :
-      row.title;
-    const matchesSearchTerm = searchTarget.toLowerCase().includes(searchTerm.toLowerCase());
-    const predictionString = row.prediction === 0 ? 'reliable' : 'fake';
-    const matchesFilter = filterType === 'all' ||
-      (filterType === 'correct' && predictionString === row.type) ||
-      (filterType === 'incorrect' && predictionString !== row.type);
-    return matchesSearchTerm && matchesFilter;
-  });
+  // const filteredData = sortedData.filter((row) => {
+  //   const searchTarget = searchScope === 'all' ?
+  //     `${row.title} ${row.type} ${row.content} ${row.prediction}` :
+  //     row.title;
+  //   const matchesSearchTerm = searchTarget.toLowerCase().includes(searchTerm.toLowerCase());
+  //   const predictionString = row.prediction === 0 ? 'reliable' : 'fake';
+  //   const matchesFilter = filterType === 'all' ||
+  //     (filterType === 'correct' && predictionString === row.type) ||
+  //     (filterType === 'incorrect' && predictionString !== row.type);
+  //   return matchesSearchTerm && matchesFilter;
+  // });
 
   return (
     <div className="App">
-      <h1>Predictions</h1>
+      {/* <h1>Predictions</h1>
       <input
         type="text"
         placeholder="Enter phrase to sort the table..."
@@ -161,7 +164,7 @@ const App = () => {
           {filteredData.slice(0, visible).map((row, index) => (
             <tr key={index}>
               <td>{row.title}</td>
-              <td>{row.prediction === 0 ? 'reliable' : 'fake'}</td>
+              <td class="prediction_text">{row.prediction === 0 ? 'reliable' : 'fake'}</td>
               <td>{row.type}</td>
               <td>{shortenText(row.content, 200)}
                 <button className='viewContentButton' onClick={() => handleClick(row)}>View full content</button>
@@ -185,25 +188,52 @@ const App = () => {
 
         <p>Afterwards, we transformed datasets into features using TF-IDF, trained it using binomial logistic regression, tuned it using k-fold cross validation, and tested it on the test dataset.</p>
         <p>We got a ~90% accuracy in correctly news classification. It took ~20 minutes to complete the process using 4 spark executors</p>
-      </div>
+      </div> */}
+
+      <BrowserRouter>
+          <Switch>
+            <Route path="/" element ={<Mainpage />}>
+              <Route index element={<Home />} />
+              <Route path = "predict" element={<Predict />}/>
+            </Route>
+          </Switch>
+      </BrowserRouter>
+      
     </div>
   );
 };
 
-const Modal = ({ handleClose, details }) => {
-  return (
-    <div className='modalDisplayBlock'>
-      <div className='popupInner'>
-        <h3>{details?.title}</h3>
-        <p>Predicted Value: {details?.prediction === 0 ? 'reliable' : 'fake'}</p>
-        <p>Actual Value: {details?.type}</p>
-        <p>{details?.content}</p>
-        <button className='closeButton' onClick={handleClose}>
-          Close
-        </button>
-      </div>
+// const Modal = ({ handleClose, details }) => {
+//   return (
+//     <div className='modalDisplayBlock'>
+//       <div className='popupInner'>
+//         <h3>{details?.title}</h3>
+//         <p>Predicted Value: {details?.prediction === 0 ? 'reliable' : 'fake'}</p>
+//         <p>Actual Value: {details?.type}</p>
+//         <p>{details?.content}</p>
+//         <button className='closeButton' onClick={handleClose}>
+//           Close
+//         </button>
+//       </div>
+//     </div>
+//   );
+// };
+
+export const Mainpage = () => {
+  return(
+    <div>
+      <h1 className='projectTitle'>Real vs Fake News Categorization</h1>
+      <hr/>
+      <nav>
+        <ul>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/predict">Predict</Link></li>
+        </ul>
+      </nav>
+      <hr/>
+      <Outlet />
     </div>
-  );
+  )
 };
 
 export default App;

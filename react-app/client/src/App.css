@@ -4,9 +4,16 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+:root{
+  background-image: url("newspaper.png");
+  background-size: cover;
+}
+
 h1 {
-  color: #333;
+  color: #000000;
   margin-bottom: 20px;
+  background-color: rgba(245, 245, 220, 0.527);
+  text-align: center;
 }
 
 .search-bar {
@@ -49,11 +56,13 @@ h1 {
   border: 1px solid #ddd;
   padding: 12px 8px;
   text-align: left;
+  background-color: beige;
+  background-size: cover;
 }
 
 .prediction-table th {
   background-color: #f2f2f2;
-  color: #333;
+  color: #000000;
   position: sticky;
   top: 0;
   z-index: 1;
@@ -130,6 +139,8 @@ h1 {
     padding: 32px;
     width: 100%;
     background-color: #FFF;
+    background-image: url("newspaper.png");
+    background-size: cover;
 }
 
 .popupInner .closeButton {
@@ -145,4 +156,60 @@ h1 {
   /* margin: 10px 0 0 0; */
   border-radius: 5px;
   font-weight: 600;
+}
+
+.prediction-table td[prediction="reliable"]{
+  color: green;
+}
+
+.prediction-table td[prediction="fake"]{
+  color: red;
+}
+
+.innerContent{
+  background-color: beige;
+}
+
+.line {
+  border-bottom: 1px black;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #cba328;
+}
+
+li {
+  display:inline-block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.projectTitle{
+  font-size: 64px;
+  background-image: url("oldpaper.png");
+  background-size: cover;
+}
+
+.article-textbox{
+  height: 400px;
+  width: 600px;
+}
+
+.article-box{
+  display:inline-block;
+}
+
+.article-textbox::placeholder{
+  font-size: 300%;
+}
+
+.title-content{
+  table-layout: fixed;
+  width: 42%;
 }
