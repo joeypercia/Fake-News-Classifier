@@ -12,6 +12,16 @@ const App = () => {
   const showMoreItems = () => {
     setVisible(prevValue => prevValue + 20)
   };
+  const [selectedData, setSelectedData] = useState({});
+  const [show, setShow] = useState(false);
+  const handleClick = (selectedData) => {
+    setSelectedData(selectedData);
+    setShow(true);
+  };
+
+  const hideModal = () => {
+    setShow(false);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,8 +76,8 @@ const App = () => {
     const matchesSearchTerm = searchTarget.toLowerCase().includes(searchTerm.toLowerCase());
     const predictionString = row.prediction === 0 ? 'reliable' : 'fake';
     const matchesFilter = filterType === 'all' ||
-        (filterType === 'correct' && predictionString === row.type) ||
-        (filterType === 'incorrect' && predictionString !== row.type);
+      (filterType === 'correct' && predictionString === row.type) ||
+      (filterType === 'incorrect' && predictionString !== row.type);
     return matchesSearchTerm && matchesFilter;
   });
 
@@ -118,7 +128,7 @@ const App = () => {
             checked={filterType === 'correct'}
             onChange={handleFilterChange}
           />
-          Correct
+          Correct predictions
         </label>
         <label>
           <input
@@ -127,30 +137,63 @@ const App = () => {
             checked={filterType === 'incorrect'}
             onChange={handleFilterChange}
           />
-          Incorrect
+          Incorrect predictions
         </label>
       </div>
       <table className="prediction-table">
         <thead>
-          <tr>
+          {!show && (<tr>
             <th onClick={() => handleSort('title')}>Title</th>
             <th>Predicted Type</th>
             <th onClick={() => handleSort('type')}>Actual Type</th>
             <th>Content</th>
-          </tr>
+          </tr>)}
         </thead>
         <tbody>
-            {filteredData.slice(0, visible).map((row, index) => (
-              <tr key={index}>
-                <td>{row.title}</td>
-                <td>{row.prediction === 0 ? 'reliable' : 'fake'}</td>
-                <td>{row.type}</td>
-                <td>{shortenText(row.content, 200)}</td>
-              </tr>
-            ))}
+          {filteredData.slice(0, visible).map((row, index) => (
+            <tr key={index}>
+              <td>{row.title}</td>
+              <td>{row.prediction === 0 ? 'reliable' : 'fake'}</td>
+              <td>{row.type}</td>
+              <td>{shortenText(row.content, 200)}
+                <button className='viewContentButton' onClick={() => handleClick(row)}>View full content</button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
-      <button onClick = {showMoreItems}>{"Load more"}</button>
+      {show && <Modal details={selectedData} handleClose={hideModal} />}
+      <button className='loadMoreButton' onClick={showMoreItems}>{"Load more"}</button>
+      <div>
+        <p>Primary dataset:
+          <a href="https://github.com/several27/FakeNewsCorpus"> Fake News Corpus </a> </p>
+        <p>Total: 28.6GB (3,835,102 fake, 1,920,139 reliable)</p>
+        <p>Drop 50% of the fake articles, since there are twice as many in the dataset (3,835,102) vs. reliable articles (1,920,139). We don’t want our model to be biased towards predicting news as fake.
+        </p>
+        <p>
+          Clean the dataset: remove entries with any NULL fields, or have an “unknown” type.
+        </p>
+        <p>This process took ~30 minutes to run</p>
+
+        <p>Afterwards, we transformed datasets into features using TF-IDF, trained it using binomial logistic regression, tuned it using k-fold cross validation, and tested it on the test dataset.</p>
+        <p>We got a ~90% accuracy in correctly news classification. It took ~20 minutes to complete the process using 4 spark executors</p>
+      </div>
+    </div>
+  );
+};
+
+const Modal = ({ handleClose, details }) => {
+  return (
+    <div className='modalDisplayBlock'>
+      <div className='popupInner'>
+        <h3>{details?.title}</h3>
+        <p>Predicted Value: {details?.prediction === 0 ? 'reliable' : 'fake'}</p>
+        <p>Actual Value: {details?.type}</p>
+        <p>{details?.content}</p>
+        <button className='closeButton' onClick={handleClose}>
+          Close
+        </button>
+      </div>
     </div>
   );
 };

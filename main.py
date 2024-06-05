@@ -34,6 +34,7 @@ spark = SparkSession.builder \
 
 # Load data
 training_data = spark.read.format("parquet").load("sampled_train_data.parquet")
+training_data = training_data.sample(.05)
 
 # Tokenization and Feature Transformation
 tokenizer = Tokenizer(inputCol="content", outputCol="words")
@@ -69,6 +70,7 @@ cvModel.write().overwrite().save("cv_model")
 
 # Make predictions on test data and evaluate accuracy
 test_data = spark.read.format("parquet").load("sampled_test_data.parquet")
+test_data = test_data.sample(.05)
 predictions = cvModel.transform(test_data)
 evaluator = BinaryClassificationEvaluator(rawPredictionCol="rawPrediction", labelCol="label", metricName="areaUnderROC")
 accuracy = evaluator.evaluate(predictions)
