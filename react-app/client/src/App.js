@@ -9,6 +9,7 @@ const App = () => {
   const [sortConfig, setSortConfig] = useState({ key: '', direction: '' });
   const [searchScope, setSearchScope] = useState('all');
   const [visible, setVisible] = useState(20);
+  const [expandedRows, setExpandedRows] = useState({});
   const showMoreItems = () => {
     setVisible(prevValue => prevValue + 20)
   };
@@ -41,6 +42,13 @@ const App = () => {
 
   const handleFilterChange = (event) => {
     setFilterType(event.target.value);
+  };
+
+  const handleRowClick = (index) => {
+    setExpandedRows(prevExpandedRows => ({
+      ...prevExpandedRows,
+      [index]: !prevExpandedRows[index]
+    }));
   };
 
   const handleSort = (key) => {

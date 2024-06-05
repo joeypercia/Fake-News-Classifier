@@ -11,3 +11,4 @@ react-app/.DS_Store
 react-app/lr_model/
 react-app/main.py
 .DS_Store
+/cv_model
